@@ -26,7 +26,7 @@ def generate_pdf(dataframe, save_path):
 
     pdf.cell(0, 10, txt="Relatório de Unidades de Saúde", ln=True, align='C')
 
-    pdf.set_font("Arial", size=10)
+    pdf.set_font("Arial", size=8.5)
     col_widths = calculate_column_widths(dataframe, pdf, padding=5)
 
     for col, width in zip(dataframe.columns, col_widths):
