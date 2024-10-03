@@ -41,8 +41,17 @@ def generate_pdf(dataframe, save_path):
     pdf.output(save_path)
     return save_path
 
+def Limp():
+    st.empty()
+    a=0
+    b = 30
+    while a <b:
+        st.write('                ')
+        a=a+1
+
 # Função para exibir a lista e gerar o PDF
 def List():
+    Limp()
     st.success("CAPs do Rio de Janeiro - Você pode obter mais informações clicando em 'Ir à página'.")
 
     with st.container():
