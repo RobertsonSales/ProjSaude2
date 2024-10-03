@@ -63,7 +63,7 @@ def List():
             col6.write(f'<a href="{search_url}" target="_blank">Pesquisar</a>', unsafe_allow_html=True)
 
     if st.button('Imprimir lista'):
-        base = "hosp_munic_rio"
+        base = "hosp_mun_rio"
         dados = Querys.Select_Frame(base)
         colunas = ['Unidade', 'Tipo', 'Endereço', 'Bairro', 'Telefone', 'Funcionamento']
         df = pd.DataFrame(dados, columns=colunas)
