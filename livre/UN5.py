@@ -43,7 +43,7 @@ def generate_pdf(dataframe, save_path):
 
 # Função para exibir a lista e gerar o PDF
 def List():
-    st.success("Policlínicas no Rio de Janeiro - Você pode obter mais informações clicando em 'Pesquisar'.")
+    st.success("Clínicas da Família no Rio de Janeiro - Você pode obter mais informações clicando em 'Pesquisar'.")
 
     with st.container():
         colun = st.columns((2, 16, 6, 5))
@@ -63,14 +63,14 @@ def List():
             col6.write(f'<a href="{search_url}" target="_blank">Pesquisar</a>', unsafe_allow_html=True)
 
     if st.button('Imprimir lista'):
-        base = "polic_rio"
+        base = "cli_fam_rio"
         dados = Querys.Select_Frame(base)
         colunas = ['Unidade', 'Tipo', 'Endereço', 'Bairro', 'Telefone', 'Funcionamento']
         df = pd.DataFrame(dados, columns=colunas)
 
         # Use o diretório temporário padrão para salvar o PDF
         temp_dir = tempfile.gettempdir()
-        save_path = os.path.join(temp_dir, "Relatorio_Policlínicas.pdf")
+        save_path = os.path.join(temp_dir, "Relatorio_Cli_Fam.pdf")
 
         # Gera o PDF e salva no caminho especificado
         generate_pdf(df, save_path)
@@ -81,7 +81,7 @@ def List():
             st.download_button(
                 label="Baixar PDF",
                 data=f,
-                file_name="Relatorio_Policlínicas.pdf",
+                file_name="Relatorio_Cli_Fam.pdf",
                 mime="application/pdf"
             )
 
