@@ -64,16 +64,13 @@ def List():
 
         # Gera o PDF e salva no caminho especificado
         generate_pdf(df, save_path)
-        st.success(f"Arquivo PDF gerado e salvo em: {save_path}")
-
-        # Fornecendo um botão de download para o PDF
+        #st.success(f"Arquivo PDF gerado e salvo em: {save_path}")
+        
+        import base64
         with open(save_path, "rb") as f:
-            st.download_button(
-                label="Baixar PDF",
-                data=f,
-                file_name="Relatorio_Clin_Fam.pdf",
-                mime="application/pdf"
-            )
+            base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+            pdf_display = f'<embed src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf">'
+            st.markdown(pdf_display, unsafe_allow_html=True)
 
     with st.container():
         colun = st.columns((2, 16, 6, 5))
