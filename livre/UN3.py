@@ -51,7 +51,6 @@ def Limp():
 
 # Função para exibir a lista e gerar o PDF
 def List():
-    Limp()
     st.success("Hospitais Estaduais no Rio de Janeiro - Você pode obter mais informações clicando em 'Ir à página'.")
 
     with st.container():
@@ -70,7 +69,7 @@ def List():
             query = item[0].strip()
             search_url = f"https://www.google.com/search?q={query}"
             col6.write(f'<a href="{search_url}" target="_blank">Pesquisar</a>', unsafe_allow_html=True)
-
+        Limp()
     if st.button('Imprimir lista'):
         base = "hosp_est_rio"
         dados = Querys.Select_Frame(base)
