@@ -52,24 +52,6 @@ def Limp():
 # Função para exibir a lista e gerar o PDF
 def List():
     st.success("UPAS 24h do Rio de Janeiro - Você pode obter mais informações clicando em 'Ir à página'.")
-
-    with st.container():
-        colun = st.columns((2, 16, 6, 5))
-        campos = ['Cod', 'Unidade', 'Telefone', 'Pesquisar']
-
-        for colun, campos in zip(colun, campos):
-            colun.write(campos)
-
-        for item in (Querys.Select()):
-            col1, col2, col5, col6 = st.columns((2, 16, 6, 5))
-            col1.write(item[11])
-            col2.write(item[0])
-            col5.write(item[8])
-
-            query = item[0].strip()
-            search_url = f"https://www.google.com/search?q={query}"
-            col6.write(f'<a href="{search_url}" target="_blank">Pesquisar</a>', unsafe_allow_html=True)
-        Limp()
     if st.button('Imprimir lista'):
         base = "upas_rio"
         dados = Querys.Select_Frame(base)
@@ -93,3 +75,20 @@ def List():
                 mime="application/pdf"
             )
 
+    with st.container():
+        colun = st.columns((2, 16, 6, 5))
+        campos = ['Cod', 'Unidade', 'Telefone', 'Pesquisar']
+
+        for colun, campos in zip(colun, campos):
+            colun.write(campos)
+
+        for item in (Querys.Select()):
+            col1, col2, col5, col6 = st.columns((2, 16, 6, 5))
+            col1.write(item[11])
+            col2.write(item[0])
+            col5.write(item[8])
+
+            query = item[0].strip()
+            search_url = f"https://www.google.com/search?q={query}"
+            col6.write(f'<a href="{search_url}" target="_blank">Pesquisar</a>', unsafe_allow_html=True)
+        Limp()
