@@ -72,16 +72,6 @@ def List():
             pdf_display = f'<embed src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf">'
             st.markdown(pdf_display, unsafe_allow_html=True)
 
-        
-        # Fornecendo um botão de download para o PDF
-        #with open(save_path, "rb") as f:
-         #   st.download_button(
-          #      label="Baixar PDF",
-           #     data=f,
-            #    file_name="Relatorio_UPAs_24H.pdf",
-             #   mime="application/pdf"
-            #)
-
     with st.container():
         colun = st.columns((2, 16, 6, 5))
         campos = ['Cod', 'Unidade', 'Telefone', 'Pesquisar']
