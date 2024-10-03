@@ -1,0 +1,8 @@
+streamlit
+streamlit-option_menu
+mysql-connector-python==8.0.32
+pandas
+python-dotenv
+mysql-connector-python
+fpdf
+Pillow
