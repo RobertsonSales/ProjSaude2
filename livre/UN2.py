@@ -43,11 +43,11 @@ def generate_pdf(dataframe, save_path):
 
 # Função para exibir a lista e gerar o PDF
 def List():
-    st.success("CER 24h no Rio de Janeiro - Você pode obter mais informações clicando em 'Pesquisar'.")
+    st.success("CER 24h no Rio de Janeiro - Você pode obter mais informações clicando em 'Ir à página'.")
 
     with st.container():
         colun = st.columns((2, 16, 6, 5))
-        campos = ['Cod', 'Unidade', 'Telefone', 'Ir à página']
+        campos = ['Cod', 'Unidade', 'Telefone', 'Pesquisar']
 
         for colun, campos in zip(colun, campos):
             colun.write(campos)
