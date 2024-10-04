@@ -156,6 +156,14 @@ def update_setor(new_name, g1, g2, g3, g4, selected_setor_id):
     cursor.close()
     conn.close()
 
+def Limp():
+    st.empty()
+    a=0
+    b = 30
+    while a <b:
+        st.write('                ')
+        a=a+1
+        
 def show_setores_crud():
 
     st.subheader("Gerenciar Setores")
@@ -171,7 +179,7 @@ def show_setores_crud():
                 st.subheader("Listar Setores por Unidade e Grupo")
 
                 with st.container(border=True):
-
+                    Limp() # Limpa resíduos da página anterior
                     conn = create_connection()
                     cur = conn.cursor()
                     cur.execute("SELECT * FROM setor")
