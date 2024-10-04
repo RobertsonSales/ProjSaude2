@@ -175,7 +175,7 @@ def show_unidades_crud():
                 for unidade in unid:
                     if isinstance(unidade, dict):
                         registro = {
-                            "ID Grupo": unidade.get("id_grupo", ""),
+                            "Grupo": unidade.get("nome_grupo", ""),
                             "ID": unidade.get("id_unidade", ""),
                             "Nome": unidade.get("nome", ""),
                             "Tipo": unidade.get("tipo", ""),
@@ -189,7 +189,7 @@ def show_unidades_crud():
                     elif isinstance(unidade, tuple):
                         
                         registro = {
-                            "ID Grupo": unidade[2],
+                            "Grupo": unidade[2],
                             "ID": unidade[0],
                             "Nome": unidade[1],
                             "Tipo": unidade[3],
@@ -213,9 +213,9 @@ def show_unidades_crud():
                 #st.table(df.reset_index(drop=True))
 
                 # Gerar PDF
-                pdf_filename = os.path.join(os.getcwd(), "Grupos_Unidades_de_Saude.pdf")
+                pdf_filename = os.path.join(os.getcwd(), "Unidades_de_Saude.pdf")
                 if st.button("Gerar PDF"):                        
-                    generate_pdf(df, "Grupos das Unidades de Saúde", pdf_filename)
+                    generate_pdf(df, "Unidades de Saúde", pdf_filename)
                     #st.success("PDF gerado e exibido com sucesso!") 
 
         if Op == "Adicionar Unidades": # Inserir nova Unidade
