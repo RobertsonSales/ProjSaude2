@@ -79,9 +79,9 @@ def calculate_column_widths(dataframe, pdf, padding=5):
 
     return col_widths
 
-def generate_pdf(dataframe, title):
+def generate_pdf(dataframe, title, save_path):
     """
-    Gera um arquivo PDF a partir de um DataFrame.
+    Gera um arquivo PDF a partir de um DataFrame e exibe no navegador.
     """
     pdf = FPDF()
     pdf.set_auto_page_break(auto=True, margin=15)
@@ -110,20 +110,23 @@ def generate_pdf(dataframe, title):
         pdf.ln()
 
     # Salvar PDF
-    pdf_filename = (f"{title}.pdf")
-    pdf.output(pdf_filename)
+    pdf.output(save_path)
     st.info(f"PDF '{title}.pdf' foi salvo no diretório atual.")
-    webbrowser.open_new_tab(pdf_filename)
+
+    # Exibir PDF no Streamlit
+    with open(save_path, "rb") as f:
+        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+        pdf_display = f'<embed src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf">'
+        st.markdown(pdf_display, unsafe_allow_html=True)
 
 def show_grupos_crud():
     st.subheader("Grupos de Unidades de Saúde")
-    with st.container(border=True):
+    with st.container():
         menu = ["Clique aqui","Listar Grupos", "Adicionar Grupo", "Atualizar Grupo", "Excluir Grupo"]
         Op = st.selectbox("Selecione uma ação relacionada aos GRUPOS:", menu)
         
         if Op == "Listar Grupos":
-            
-            with st.container(border=True):
+            with st.container():
 
                 conn = create_connection()
                 cur = conn.cursor()
@@ -142,57 +145,36 @@ def show_grupos_crud():
                     colun.write(campos)
 
                 for grupo in grupos:
-                    
-                    #print(grupos)
                     col1, col2, col3 = st.columns((2,16,13))
                     col1.write(grupo[0])
                     col2.write(grupo[1])        
                     col3.write(grupo[2])
-                    #st.write(f"ID: {grupo[0]}, Nome: {grupo[1]}, Descrição: {grupo[2]}") 
-                    
+
                     # Reestruturar os dados para evitar problemas de fragmentação
                     restructured_data = []
 
                     for grupo in grupos:
-                        # Verificar se grupo é um dicionário ou tupla
-                        if isinstance(grupo, dict):
-                            # Caso grupo seja um dicionário, acessar por chave
-                            registro = {
-                                "ID": grupo.get("id_grupo", ""),  # Usando .get para evitar KeyError
-                                "Nome do Grupo": grupo.get("nome_grupo", ""),
-                                "Descrição do Grupo": grupo.get("descricao", ""),
-                                # Concatenar listas em uma única string
-                                # Supondo que haja listas de atributos como 'setores' ou 'unidades'
-                                "Atributos": ", ".join(grupo.get("atributos", [])) if isinstance(grupo.get("atributos", []), list) else grupo.get("atributos", "")
-                            }
-                        elif isinstance(grupo, tuple):
-                            # Caso grupo seja uma tupla, acessar por índice
+                        if isinstance(grupo, tuple):
                             registro = {
                                 "ID": grupo[0],  # Primeiro elemento da tupla
                                 "Nome do Grupo": grupo[1],
                                 "Descrição do Grupo": grupo[2],
-                                # Assumindo que os atributos estão em uma posição específica da tupla
-                                #"Atributos": ", ".join(grupo[1]) if isinstance(grupo[1], list) else grupo[1]
                             }
-                        else:
-                            # Caso inesperado, pular este registro
-                            continue
-
                         restructured_data.append(registro)
 
                     # Tabela de exibição dos grupos
-
                     df = pd.DataFrame(restructured_data)
                     
                     # Converter para string para evitar problemas de serialização
                     df = df.astype(str) 
                     df.reset_index(drop=True)
-                    #st.table(df)
 
-                    # Botão para gerar PDF
+                    # Gerar PDF
+                    pdf_filename = os.path.join(os.getcwd(), "Grupos_Unidades_de_Saude.pdf")
+
                     if st.button("Gerar PDF"):                        
-                        generate_pdf(df, "Grupos das Unidades de Saúde")
-                        st.success("PDF gerado com sucesso!")
+                        generate_pdf(df, "Grupos das Unidades de Saúde", pdf_filename)
+                        st.success("PDF gerado e exibido com sucesso!")
 
         if Op == "Adicionar Grupo":
             with st.container(border=True):
