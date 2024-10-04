@@ -2,7 +2,8 @@ import streamlit as st
 from restrito.utils import create_connection
 from fpdf import FPDF
 import pandas as pd
-import webbrowser
+import base64
+import os
 
 def delete_grupo(grupo_id):
     """
