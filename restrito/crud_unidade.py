@@ -82,11 +82,11 @@ def generate_pdf(dataframe, title, save_path):
     pdf.add_page()
     
     # Título
-    pdf.set_font("Arial", size=10)
+    pdf.set_font("Arial", size=16)
     pdf.cell(150, 5, txt=title, ln=True, align='C')
     
     # Cabeçalho
-    pdf.set_font("Arial", size=16, style='B')
+    pdf.set_font("Arial", size=10, style='B')
 
     # Calculando as larguras das colunas
     col_widths = calculate_column_widths(dataframe, pdf)
@@ -97,7 +97,7 @@ def generate_pdf(dataframe, title, save_path):
     pdf.ln()
 
     # Dados
-    pdf.set_font("Arial", size=12)
+    pdf.set_font("Arial", size=10)
     for i in range(len(dataframe)):
         for col, width in zip(dataframe.columns, col_widths):
             pdf.cell(width, 10, str(dataframe.iloc[i][col]), 1, 0, 'C')
