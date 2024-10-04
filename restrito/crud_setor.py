@@ -78,7 +78,7 @@ def generate_pdf(dataframe, title, save_path):
     
     # Título
     pdf.set_font("Arial", size=16)
-    pdf.cell(150, 5, txt=title, ln=True, align='C')
+    pdf.cell(150, 5, txt=title, ln=True, align='L')
     
     # Cabeçalho
     pdf.set_font("Arial", size=12, style='B')
@@ -275,8 +275,6 @@ def show_setores_crud():
                     pdf_filename = os.path.join(os.getcwd(), "Unidades_de_Saude.pdf")                   
                     generate_pdf(df, "Setores de =>  "+n_unid, pdf_filename)
                     #st.success("PDF gerado e exibido com sucesso!")
-                
-        Limp() # Limpa resíduos da página anterior
 
         if Op == "Adicionar Setores":
             with st.container(border=True):
@@ -306,7 +304,8 @@ def show_setores_crud():
                             st.warning("Por favor, preencha todos os campos!")
                 else:
                     st.warning("Nenhuma unidade encontrada para vinculação!")                
-
+            Limp() # Limpa resíduos da página anterior
+            
         if Op == "Atualizar Setores":     # Atualizar setor
             
             with st.container(border=True):
