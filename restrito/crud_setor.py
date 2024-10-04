@@ -221,8 +221,6 @@ def show_setores_crud():
                         # Verifica se 'setor' é um dicionário e possui as chaves esperadas
                         if isinstance(setor, dict) and all(key in setor for key in ['id_setor', 'nome_setor', 'G1', 'G2', 'G3', 'G4', 'taxa']):
                             
-                            with st.container(border=True):
-                                
                             col1, col2, col3, col4, col5, col6, col7 = st.columns((2, 6, 2, 2, 2, 2, 3))
                             col1.write(setor['id_setor'])  # ID do setor
                             col2.write(setor['nome_setor'])  # Nome do setor
