@@ -217,7 +217,7 @@ def show_setores_crud():
                         coluna.write(campo)
 
                     # Itera sobre os setores e preenche os dados
-                    Limp() # Limpa resíduos da página anterior
+
                     for setor in setores:
 
                         # Verifica se 'setor' é um dicionário e possui as chaves esperadas
