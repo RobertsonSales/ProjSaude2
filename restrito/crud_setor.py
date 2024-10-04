@@ -77,7 +77,7 @@ def generate_pdf(dataframe, title, save_path):
     
     # Título
     pdf.set_font("Arial", size=16)
-    pdf.cell(150, 5, txt=title, ln=True, align='C')
+    pdf.cell(150, 5, txt=title, ln=True, align='R')
     
     # Cabeçalho
     pdf.set_font("Arial", size=12, style='B')
@@ -191,7 +191,7 @@ def show_setores_crud():
                     unidade_names = [f"{unidade['id_unidade']} - {unidade['nome_unidade']}" for unidade in unidades]
                     selected_unidade = st.selectbox("Selecione a Unidade para listar os Setores", unidade_names)
                     selected_unidade_id = int(selected_unidade.split(' - ')[0])
-                    n_unid = selected_unidade[1]
+                    n_unid = selected_unidade.strip[1]
 
                     setores = get_setores_by_unidade(selected_unidade_id)
                     
