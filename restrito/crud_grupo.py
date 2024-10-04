@@ -129,7 +129,10 @@ def show_grupos_crud():
         
         if Op == "Listar Grupos":
             with st.container():
-
+                if st.button("Gerar PDF"):                        
+                    generate_pdf(df, "Grupos das Unidades de Saúde", pdf_filename)
+                    #st.success("PDF gerado e exibido com sucesso!")
+                        
                 conn = create_connection()
                 cur = conn.cursor()
                 cur.execute("SELECT * FROM grupo")
@@ -173,10 +176,6 @@ def show_grupos_crud():
 
                     # Gerar PDF
                     pdf_filename = os.path.join(os.getcwd(), "Grupos_Unidades_de_Saude.pdf")
-
-                    if st.button("Gerar PDF"):                        
-                        generate_pdf(df, "Grupos das Unidades de Saúde", pdf_filename)
-                        st.success("PDF gerado e exibido com sucesso!")
 
         if Op == "Adicionar Grupo":
             with st.container(border=True):
