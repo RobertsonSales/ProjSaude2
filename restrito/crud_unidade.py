@@ -73,7 +73,7 @@ def calculate_column_widths(dataframe, pdf, padding=5):
 
     return col_widths
 
-def generate_pdf(dataframe, title):
+def generate_pdf(dataframe, title, save_path):
     """
     Gera um arquivo PDF a partir de um DataFrame.
     """
