@@ -113,7 +113,7 @@ def generate_pdf(dataframe, title, save_path):
 
     # Salvar PDF
     pdf.output(save_path)
-    st.info(f"PDF '{title}.pdf' foi salvo no diretório atual.")
+    #st.info(f"PDF '{title}.pdf' foi salvo no diretório atual.")
 
     # Exibir PDF no Streamlit
     with open(save_path, "rb") as f:
