@@ -191,7 +191,7 @@ def show_setores_crud():
                     unidade_names = [f"{unidade['id_unidade']} - {unidade['nome_unidade']}" for unidade in unidades]
                     selected_unidade = st.selectbox("Selecione a Unidade para listar os Setores", unidade_names)
                     selected_unidade_id = int(selected_unidade.split(' - ')[0])
-                    n_unid = unidade_names
+                    n_unid = selected_unidade.split(' - ', 1)[1]
 
                     setores = get_setores_by_unidade(selected_unidade_id)
                     
