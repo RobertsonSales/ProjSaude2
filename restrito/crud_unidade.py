@@ -133,6 +133,7 @@ def show_unidades_crud():
             grupo_names = [f"{grupo['id_grupo']} - {grupo['nome_grupo']}" for grupo in grupos]
             selected_grupo = st.selectbox("Selecione o Grupo para listar as Unidades", grupo_names)
             selected_grupo_id = int(selected_grupo.split(' - ')[0])
+            n_grupo = selected_grupo.split(' - ')[1]
 
             # Buscar unidades vinculadas ao grupo selecionado
             unidades = get_unidades_by_grupo(selected_grupo_id)
@@ -167,8 +168,7 @@ def show_unidades_crud():
                     col1, col2, col3 = st.columns((2,10,18))
                     col1.write(unidades[0])
                     col2.write(unidades[1])        
-                    col3.write(unidades[4])
-                    #st.write(f"ID: {grupo[0]}, Nome: {grupo[1]}, Descrição: {grupo[2]}")                            
+                    col3.write(unidades[4])                                           
                 
                 restructured_data = []
 
@@ -215,7 +215,7 @@ def show_unidades_crud():
                 # Gerar PDF
                 pdf_filename = os.path.join(os.getcwd(), "Unidades_de_Saude.pdf")
                 if st.button("Gerar PDF"):                        
-                    generate_pdf(df, "Unidades de Saúde", pdf_filename)
+                    generate_pdf(df, "'Unidades de Saúde - '+n_grupo'", pdf_filename)
                     #st.success("PDF gerado e exibido com sucesso!") 
 
         if Op == "Adicionar Unidades": # Inserir nova Unidade
