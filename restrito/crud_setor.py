@@ -77,10 +77,10 @@ def generate_pdf(dataframe, title, save_path):
     
     # Título
     pdf.set_font("Arial", size=16)
-    pdf.cell(150, 5, txt=title, ln=True, align='R')
+    pdf.cell(150, 5, txt=title, ln=True, align='L')
     
     # Cabeçalho
-    pdf.set_font("Arial", size=12, style='B')
+    pdf.set_font("Arial", size=13, style='B')
 
     # Calculando as larguras das colunas
     col_widths = calculate_column_widths(dataframe, pdf)
@@ -91,7 +91,7 @@ def generate_pdf(dataframe, title, save_path):
     pdf.ln()
 
     # Dados
-    pdf.set_font("Arial", size=12)
+    pdf.set_font("Arial", size=13)
     for i in range(len(dataframe)):
         for col, width in zip(dataframe.columns, col_widths):
             pdf.cell(width, 10, str(dataframe.iloc[i][col]), 1, 0, 'C')
@@ -191,7 +191,7 @@ def show_setores_crud():
                     unidade_names = [f"{unidade['id_unidade']} - {unidade['nome_unidade']}" for unidade in unidades]
                     selected_unidade = st.selectbox("Selecione a Unidade para listar os Setores", unidade_names)
                     selected_unidade_id = int(selected_unidade.split(' - ')[0])
-                    n_unid = selected_unidade.split()[1]
+                    n_unid = selected_unidade.split('')[1]
 
                     setores = get_setores_by_unidade(selected_unidade_id)
                     
