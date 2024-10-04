@@ -5,6 +5,7 @@ from fpdf import FPDF
 import base64
 import os
 
+
 def delete_setor(selected_setor_id):
     """
     Exclui o setor do banco de dados com o ID fornecido.
@@ -76,11 +77,11 @@ def generate_pdf(dataframe, title, save_path):
     pdf.add_page()
     
     # Título
-    pdf.set_font("Arial", size=16, style='B')
-    pdf.cell(150, 5, txt=title, ln=True, align='L')
+    pdf.set_font("Arial", size=16)
+    pdf.cell(150, 5, txt=title, ln=True, align='C')
     
     # Cabeçalho
-    pdf.set_font("Arial", size=13)
+    pdf.set_font("Arial", size=12, style='B')
 
     # Calculando as larguras das colunas
     col_widths = calculate_column_widths(dataframe, pdf)
@@ -91,7 +92,7 @@ def generate_pdf(dataframe, title, save_path):
     pdf.ln()
 
     # Dados
-    pdf.set_font("Arial", size=13)
+    pdf.set_font("Arial", size=10)
     for i in range(len(dataframe)):
         for col, width in zip(dataframe.columns, col_widths):
             pdf.cell(width, 10, str(dataframe.iloc[i][col]), 1, 0, 'C')
@@ -163,7 +164,7 @@ def Limp():
     while a <b:
         st.write('                ')
         a=a+1
-        
+
 def show_setores_crud():
 
     st.subheader("Gerenciar Setores")
@@ -178,104 +179,104 @@ def show_setores_crud():
 
                 st.subheader("Listar Setores por Unidade e Grupo")
 
-                with st.container(border=True):
-                    
-                    conn = create_connection()
-                    cur = conn.cursor()
-                    cur.execute("SELECT * FROM setor")
-                    setor = cur.fetchall()                    
-                    conn.close()
-
-                    grupos = get_all_grupos()
-
-                    # Lista suspensa de grupos
-                    grupo_names = [f"{grupo['id_grupo']} - {grupo['nome_grupo']}" for grupo in grupos]
-                    selected_grupo = st.selectbox("Selecione o Grupo para listar as Unidades", grupo_names)
-                    selected_grupo_id = int(selected_grupo.split(' - ')[0])
-                    
-                    unidades = get_unidades_by_grupo(selected_grupo_id)
-
-                    # Lista suspensa de unidades vinculadas ao grupo selecionado
-                    unidade_names = [f"{unidade['id_unidade']} - {unidade['nome_unidade']}" for unidade in unidades]
-                    selected_unidade = st.selectbox("Selecione a Unidade para listar os Setores", unidade_names)
-                    selected_unidade_id = int(selected_unidade.split(' - ')[0])
-                    n_unid = selected_unidade.split(' - ', 1)[1]
-
-                    setores = get_setores_by_unidade(selected_unidade_id)
-                    
-                    if not setores:
-                        st.warning("Nenhum setor encontrado para a unidade selecionada.")
-                        return
-              
-                    # Exibir o cabeçalho da tabela com os nomes dos campos
-                    colunas = st.columns((2, 6, 2, 2, 2, 2, 3))
-                    campos = ['ID', 'Setor', 'G1', 'G2', 'G3', 'G4', 'Taxa']
-
-                    # Escreve o cabeçalho
-                    for coluna, campo in zip(colunas, campos):
-                        coluna.write(campo)
-
-                    # Itera sobre os setores e preenche os dados
-                    for setor in setores:
-
-                        # Verifica se 'setor' é um dicionário e possui as chaves esperadas
-                        if isinstance(setor, dict) and all(key in setor for key in ['id_setor', 'nome_setor', 'G1', 'G2', 'G3', 'G4', 'taxa']):
-                            
-                            col1, col2, col3, col4, col5, col6, col7 = st.columns((2, 6, 2, 2, 2, 2, 3))
-                            col1.write(setor['id_setor'])  # ID do setor
-                            col2.write(setor['nome_setor'])  # Nome do setor
-                            col3.write(setor['G1'])  # G1
-                            col4.write(setor['G2'])  # G2
-                            col5.write(setor['G3'])  # G3
-                            col6.write(setor['G4'])  # G4
-                            col7.write(setor['taxa'])  # Taxa
-                        else:
-                            st.error("Formato de dados inválido ou chaves ausentes no setor.")
-                                    # Reestruturar os dados para evitar problemas de fragmentação
-
-                restructured_data = []
-
-                for setor in setores:
-                    if isinstance(setor, dict):
-                        registro = {
-                            "ID": setor.get("id_setor", ""),
-                            "Nome": setor.get("nome_setor", ""),
-                            "G1": setor.get("G1", ""),
-                            "G2": setor.get("G2", ""),
-                            "G3": setor.get("G3", ""),
-                            "G4": setor.get("G4", ""),
-                            "Taxa": setor.get("taxa", ""),
-                            #"ID Unidade": setor.get("id_unidade", "")
-                        }
-                    elif isinstance(setor, tuple):
-                        registro = {
-                            "ID": setor[0],
-                            "Nome": setor[1],
-                            "G1": setor[2],
-                            "G2": setor[3],
-                            "G3": setor[4],
-                            "G4": setor[5],
-                            "Taxa": setor[6],
-                            #"ID Unidade": setor[7]
-                        }
-                    else:
-                        continue
-
-                    restructured_data.append(registro)
-
-                    # Criar DataFrame com os dados reestruturados
-                    df = pd.DataFrame(restructured_data)
-                    df = df.astype(str)
-                    df.reset_index(drop=True)
-
-                # Botão para gerar PDF
-                if st.button("Gerar PDF"):
-                    pdf_filename = os.path.join(os.getcwd(), "Unidades_de_Saude.pdf")                   
-                    generate_pdf(df, "Setores de =>  "+n_unid, pdf_filename)
-                    #st.success("PDF gerado e exibido com sucesso!")
+                #with st.container(border=True):
                 
-            Limp() # Limpa resíduos da página anterior
-        
+                conn = create_connection()
+                cur = conn.cursor()
+                cur.execute("SELECT * FROM setor")
+                setor = cur.fetchall()                    
+                conn.close()
+
+                grupos = get_all_grupos()
+
+                # Lista suspensa de grupos
+                grupo_names = [f"{grupo['id_grupo']} - {grupo['nome_grupo']}" for grupo in grupos]
+                selected_grupo = st.selectbox("Selecione o Grupo para listar as Unidades", grupo_names)
+                selected_grupo_id = int(selected_grupo.split(' - ')[0])
+                
+                unidades = get_unidades_by_grupo(selected_grupo_id)
+
+                # Lista suspensa de unidades vinculadas ao grupo selecionado
+                unidade_names = [f"{unidade['id_unidade']} - {unidade['nome_unidade']}" for unidade in unidades]
+                selected_unidade = st.selectbox("Selecione a Unidade para listar os Setores", unidade_names)
+                selected_unidade_id = int(selected_unidade.split(' - ')[0])
+                n_unid = selected_unidade.split(' - ', 1)[1]
+
+                setores = get_setores_by_unidade(selected_unidade_id)
+                
+                if not setores:
+                    st.warning("Nenhum setor encontrado para a unidade selecionada.")
+                    return
+            
+                # Exibir o cabeçalho da tabela com os nomes dos campos
+                colunas = st.columns((2, 6, 2, 2, 2, 2, 3))
+                campos = ['ID', 'Setor', 'G1', 'G2', 'G3', 'G4', 'Taxa']
+
+                # Escreve o cabeçalho
+                for coluna, campo in zip(colunas, campos):
+                    coluna.write(campo)
+
+                # Itera sobre os setores e preenche os dados
+                for setor in setores:
+
+                    # Verifica se 'setor' é um dicionário e possui as chaves esperadas
+                    if isinstance(setor, dict) and all(key in setor for key in ['id_setor', 'nome_setor', 'G1', 'G2', 'G3', 'G4', 'taxa']):
+                        
+                        col1, col2, col3, col4, col5, col6, col7 = st.columns((2, 6, 2, 2, 2, 2, 3))                       
+                        col1.write(setor['id_setor'])  # ID do setor
+                        col2.write(setor['nome_setor'])  # Nome do setor
+                        col3.write(setor['G1'])  # G1
+                        col4.write(setor['G2'])  # G2
+                        col5.write(setor['G3'])  # G3
+                        col6.write(setor['G4'])  # G4
+                        col7.write(setor['taxa'])  # Taxa
+                    else:
+                        st.error("Formato de dados inválido ou chaves ausentes no setor.")
+                                # Reestruturar os dados para evitar problemas de fragmentação
+
+            restructured_data = []
+
+            for setor in setores:
+                if isinstance(setor, dict):
+                    registro = {
+                        "ID": setor.get("id_setor", ""),
+                        "Nome": setor.get("nome_setor", ""),
+                        "G1": setor.get("G1", ""),
+                        "G2": setor.get("G2", ""),
+                        "G3": setor.get("G3", ""),
+                        "G4": setor.get("G4", ""),
+                        "Taxa": setor.get("taxa", ""),
+                        #"ID Unidade": setor.get("id_unidade", "")
+                    }
+                elif isinstance(setor, tuple):
+                    registro = {
+                        "ID": setor[0],
+                        "Nome": setor[1],
+                        "G1": setor[2],
+                        "G2": setor[3],
+                        "G3": setor[4],
+                        "G4": setor[5],
+                        "Taxa": setor[6],
+                        #"ID Unidade": setor[7]
+                    }
+                else:
+                    continue
+
+                restructured_data.append(registro)
+
+                # Criar DataFrame com os dados reestruturados
+                df = pd.DataFrame(restructured_data)
+                df = df.astype(str)
+                df.reset_index(drop=True)
+
+            # Botão para gerar PDF
+            if st.button("Gerar PDF"):
+                pdf_filename = os.path.join(os.getcwd(), "Unidades_de_Saude.pdf")                   
+                generate_pdf(df, "Setores de =>  "+n_unid, pdf_filename)
+                #st.success("PDF gerado e exibido com sucesso!")
+                
+        Limp() # Limpa resíduos da página anterior
+
         if Op == "Adicionar Setores":
             with st.container(border=True):
 
