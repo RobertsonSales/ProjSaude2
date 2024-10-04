@@ -76,11 +76,11 @@ def generate_pdf(dataframe, title, save_path):
     pdf.add_page()
     
     # Título
-    pdf.set_font("Arial", size=16)
+    pdf.set_font("Arial", size=16, style='B')
     pdf.cell(150, 5, txt=title, ln=True, align='L')
     
     # Cabeçalho
-    pdf.set_font("Arial", size=13, style='B')
+    pdf.set_font("Arial", size=13)
 
     # Calculando as larguras das colunas
     col_widths = calculate_column_widths(dataframe, pdf)
@@ -266,7 +266,7 @@ def show_setores_crud():
                     # Botão para gerar PDF
                     if st.button("Gerar PDF"):
                         pdf_filename = os.path.join(os.getcwd(), "Unidades_de_Saude.pdf")                   
-                        generate_pdf(df, "Setores da Unidade de Saúde - "+n_unid, pdf_filename)
+                        generate_pdf(df, "Setores de =>  "+n_unid, pdf_filename)
                         #st.success("PDF gerado e exibido com sucesso!")
 
         if Op == "Adicionar Setores":
