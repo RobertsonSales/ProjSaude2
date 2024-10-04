@@ -266,10 +266,9 @@ def show_setores_crud():
 
                     # Botão para gerar PDF
                     if st.button("Gerar PDF"):
-                        pdf_filename = os.path.join(os.getcwd(), "Unidades_de_Saude.pdf")
-                        if st.button("Gerar PDF"):                        
-                            generate_pdf(df, "Setores da Unidade de Saúde - "+n_unid, pdf_filename)
-                            #st.success("PDF gerado e exibido com sucesso!")
+                        pdf_filename = os.path.join(os.getcwd(), "Unidades_de_Saude.pdf")                   
+                        generate_pdf(df, "Setores da Unidade de Saúde - "+n_unid, pdf_filename)
+                        #st.success("PDF gerado e exibido com sucesso!")
 
         if Op == "Adicionar Setores":
             with st.container(border=True):
