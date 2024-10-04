@@ -84,9 +84,10 @@ def generate_pdf(dataframe, title, save_path):
     """
     Gera um arquivo PDF a partir de um DataFrame e exibe no navegador.
     """
-    pdf = FPDF()
+    pdf = FPDF(orientation='L', unit='mm', format='A4')
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
+    pdf.set_font("Arial", size=16, style='B')
     
     # Título
     pdf.set_font("Arial", size=14)
