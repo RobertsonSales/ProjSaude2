@@ -179,7 +179,7 @@ def show_setores_crud():
                 st.subheader("Listar Setores por Unidade e Grupo")
 
                 with st.container(border=True):
-                    Limp() # Limpa resíduos da página anterior
+                    
                     conn = create_connection()
                     cur = conn.cursor()
                     cur.execute("SELECT * FROM setor")
@@ -276,7 +276,9 @@ def show_setores_crud():
                     pdf_filename = os.path.join(os.getcwd(), "Unidades_de_Saude.pdf")                   
                     generate_pdf(df, "Setores de =>  "+n_unid, pdf_filename)
                     #st.success("PDF gerado e exibido com sucesso!")
-
+                
+                Limp() # Limpa resíduos da página anterior
+        
         if Op == "Adicionar Setores":
             with st.container(border=True):
 
