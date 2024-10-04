@@ -7,13 +7,12 @@ import streamlit as st
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-# Função de conexão com o banco de dados
 def create_connection():
     conn = mysql.connector.connect(
-        host="localhost",
-        user="****",
-        password="****",
-        database="projsaude"
+        host=st.secrets["mysql2"]["DB_HOST"],      # Host do segundo banco
+        user=st.secrets["mysql2"]["DB_USER"],      # Usuário do segundo banco
+        password=st.secrets["mysql2"]["DB_PASSWORD"],  # Senha do segundo banco
+        database=st.secrets["mysql2"]["DB_NAME"]   # Nome do banco de dados
     )
     return conn
 
