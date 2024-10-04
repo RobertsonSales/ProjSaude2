@@ -2,9 +2,8 @@ import streamlit as st
 from restrito.utils import create_connection
 from fpdf import FPDF
 import pandas as pd
-import webbrowser
-
-
+import base64
+import os
 
 def get_all_groups():
     """
@@ -78,13 +77,14 @@ def generate_pdf(dataframe, title):
     """
     Gera um arquivo PDF a partir de um DataFrame.
     """
-    pdf = FPDF()
+    pdf = FPDF(orientation='L', unit='mm', format='A4')
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
+    pdf.set_font("Arial", size=16, style='B')
     
     # Título
     pdf.set_font("Arial", size=14)
-    pdf.cell(150, 10, txt=title, ln=True, align='C')
+    pdf.cell(150, 5, txt=title, ln=True, align='C')
     
     # Cabeçalho
     pdf.set_font("Arial", size=10, style='B')
@@ -105,11 +105,14 @@ def generate_pdf(dataframe, title):
         pdf.ln()
 
     # Salvar PDF
-    pdf_filename = f"{title}.pdf"
-        
-    st.success(f"Arquivo {pdf_filename} salvo com sucesso!") 
-    pdf.output(pdf_filename)    
-    webbrowser.open_new_tab(pdf_filename)
+    pdf.output(save_path)
+    #st.info(f"PDF '{title}.pdf' foi salvo no diretório atual.")
+
+    # Exibir PDF no Streamlit
+    with open(save_path, "rb") as f:
+        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+        pdf_display = f'<embed src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf">'
+        st.markdown(pdf_display, unsafe_allow_html=True)
 
 def show_unidades_crud():
 
@@ -204,13 +207,16 @@ def show_unidades_crud():
                 # Criar DataFrame com os dados reestruturados
                 df = pd.DataFrame(restructured_data)
                 df = df.astype(str)
+                df.reset_index(drop=True)
 
                 # Remover o índice ao exibir a tabela no Streamlit
-                st.table(df.reset_index(drop=True))
+                #st.table(df.reset_index(drop=True))
 
-                # Botão para gerar PDF
-                if st.button("Gerar PDF"):
-                    generate_pdf(df, "Unidades de Saúde Rio de Janeiro")
+                # Gerar PDF
+                pdf_filename = os.path.join(os.getcwd(), "Grupos_Unidades_de_Saude.pdf")
+                if st.button("Gerar PDF"):                        
+                    generate_pdf(df, "Grupos das Unidades de Saúde", pdf_filename)
+                    #st.success("PDF gerado e exibido com sucesso!") 
 
         if Op == "Adicionar Unidades": # Inserir nova Unidade
 
