@@ -215,7 +215,7 @@ def show_unidades_crud():
                 # Gerar PDF
                 pdf_filename = os.path.join(os.getcwd(), "Unidades_de_Saude.pdf")
                 if st.button("Gerar PDF"):                        
-                    generate_pdf(df, "'Unidades de Saúde - '+n_grupo'", pdf_filename)
+                    generate_pdf(df, "Unidades de Saúde - "+n_grupo, pdf_filename)
                     #st.success("PDF gerado e exibido com sucesso!") 
 
         if Op == "Adicionar Unidades": # Inserir nova Unidade
