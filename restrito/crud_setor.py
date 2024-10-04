@@ -1,8 +1,9 @@
 import streamlit as st
 from restrito.utils import create_connection
 import pandas as pd
-import webbrowser
 from fpdf import FPDF
+import base64
+import os
 
 
 def delete_setor(selected_setor_id):
@@ -67,17 +68,17 @@ def calculate_column_widths(dataframe, pdf, padding=5):
 
     return col_widths
 
-def generate_pdf(dataframe, title):
+def generate_pdf(dataframe, title, save_path):
     """
     Gera um arquivo PDF a partir de um DataFrame.
     """
-    pdf = FPDF()
+    pdf = FPDF(orientation='L', unit='mm', format='A4')
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
     
     # Título
-    pdf.set_font("Arial", size=14)
-    pdf.cell(80, 10, txt=title, ln=True, align='C')
+    pdf.set_font("Arial", size=16)
+    pdf.cell(150, 5, txt=title, ln=True, align='C')
     
     # Cabeçalho
     pdf.set_font("Arial", size=12, style='B')
@@ -91,17 +92,21 @@ def generate_pdf(dataframe, title):
     pdf.ln()
 
     # Dados
-    pdf.set_font("Arial", size=12)
+    pdf.set_font("Arial", size=10)
     for i in range(len(dataframe)):
         for col, width in zip(dataframe.columns, col_widths):
             pdf.cell(width, 10, str(dataframe.iloc[i][col]), 1, 0, 'C')
         pdf.ln()
 
     # Salvar PDF
-    pdf_filename = (f"{title}.pdf")
-    pdf.output(pdf_filename)
+    pdf.output(save_path)
     #st.info(f"PDF '{title}.pdf' foi salvo no diretório atual.")
-    webbrowser.open_new_tab(pdf_filename)
+
+    # Exibir PDF no Streamlit
+    with open(save_path, "rb") as f:
+        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+        pdf_display = f'<embed src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf">'
+        st.markdown(pdf_display, unsafe_allow_html=True)
 
 def get_unidades_by_grupo(grupo_id):
     """
@@ -187,6 +192,7 @@ def show_setores_crud():
                     unidade_names = [f"{unidade['id_unidade']} - {unidade['nome_unidade']}" for unidade in unidades]
                     selected_unidade = st.selectbox("Selecione a Unidade para listar os Setores", unidade_names)
                     selected_unidade_id = int(selected_unidade.split(' - ')[0])
+                    n_unid = selected_unidade.split(' - ')[1]
 
                     setores = get_setores_by_unidade(selected_unidade_id)
                     
@@ -223,9 +229,6 @@ def show_setores_crud():
                             st.error("Formato de dados inválido ou chaves ausentes no setor.")
                                     # Reestruturar os dados para evitar problemas de fragmentação
 
-                #df = pd.DataFrame(setores)
-                #st.write(df)
-
                 restructured_data = []
 
                 for setor in setores:
@@ -259,14 +262,14 @@ def show_setores_crud():
                     # Criar DataFrame com os dados reestruturados
                     df = pd.DataFrame(restructured_data)
                     df = df.astype(str)
-                    st.write("Disposição das informações no arquivo PDF a ser gerado:")
-                    # Remover o índice ao exibir a tabela no Streamlit
-                    st.table(df.reset_index(drop=True))
+                    df.reset_index(drop=True)
 
                     # Botão para gerar PDF
                     if st.button("Gerar PDF"):
-                        generate_pdf(df, "Setores de Unidades de Saúde")
-                        st.success("PDF gerado com sucesso!")
+                        pdf_filename = os.path.join(os.getcwd(), "Unidades_de_Saude.pdf")
+                        if st.button("Gerar PDF"):                        
+                            generate_pdf(df, "Setores da Unidade de Saúde - "+n_unid, pdf_filename)
+                            #st.success("PDF gerado e exibido com sucesso!")
 
         if Op == "Adicionar Setores":
             with st.container(border=True):
