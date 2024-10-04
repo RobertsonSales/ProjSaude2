@@ -5,7 +5,6 @@ from fpdf import FPDF
 import base64
 import os
 
-
 def delete_setor(selected_setor_id):
     """
     Exclui o setor do banco de dados com o ID fornecido.
@@ -72,7 +71,7 @@ def generate_pdf(dataframe, title, save_path):
     """
     Gera um arquivo PDF a partir de um DataFrame.
     """
-    pdf = FPDF(orientation='L', unit='mm', format='A4')
+    pdf = FPDF(orientation='P', unit='mm', format='A4')
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
     
@@ -92,7 +91,7 @@ def generate_pdf(dataframe, title, save_path):
     pdf.ln()
 
     # Dados
-    pdf.set_font("Arial", size=10)
+    pdf.set_font("Arial", size=12)
     for i in range(len(dataframe)):
         for col, width in zip(dataframe.columns, col_widths):
             pdf.cell(width, 10, str(dataframe.iloc[i][col]), 1, 0, 'C')
@@ -192,7 +191,7 @@ def show_setores_crud():
                     unidade_names = [f"{unidade['id_unidade']} - {unidade['nome_unidade']}" for unidade in unidades]
                     selected_unidade = st.selectbox("Selecione a Unidade para listar os Setores", unidade_names)
                     selected_unidade_id = int(selected_unidade.split(' - ')[0])
-                    n_unid = selected_unidade.split(' - ')[1]
+                    n_unid = selected_unidade[1]
 
                     setores = get_setores_by_unidade(selected_unidade_id)
                     
