@@ -223,15 +223,14 @@ def show_setores_crud():
                             
                             with st.container(border=True):
                                 
-                                col1, col2, col3, col4, col5, col6, col7 = st.columns((2, 6, 2, 2, 2, 2, 3))
-                            
-                                col1.write(setor['id_setor'])  # ID do setor
-                                col2.write(setor['nome_setor'])  # Nome do setor
-                                col3.write(setor['G1'])  # G1
-                                col4.write(setor['G2'])  # G2
-                                col5.write(setor['G3'])  # G3
-                                col6.write(setor['G4'])  # G4
-                                col7.write(setor['taxa'])  # Taxa
+                            col1, col2, col3, col4, col5, col6, col7 = st.columns((2, 6, 2, 2, 2, 2, 3))
+                            col1.write(setor['id_setor'])  # ID do setor
+                            col2.write(setor['nome_setor'])  # Nome do setor
+                            col3.write(setor['G1'])  # G1
+                            col4.write(setor['G2'])  # G2
+                            col5.write(setor['G3'])  # G3
+                            col6.write(setor['G4'])  # G4
+                            col7.write(setor['taxa'])  # Taxa
                         else:
                             st.error("Formato de dados inválido ou chaves ausentes no setor.")
                                     # Reestruturar os dados para evitar problemas de fragmentação
@@ -277,7 +276,7 @@ def show_setores_crud():
                     generate_pdf(df, "Setores de =>  "+n_unid, pdf_filename)
                     #st.success("PDF gerado e exibido com sucesso!")
                 
-                Limp() # Limpa resíduos da página anterior
+            Limp() # Limpa resíduos da página anterior
         
         if Op == "Adicionar Setores":
             with st.container(border=True):
