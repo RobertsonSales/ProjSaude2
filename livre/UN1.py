@@ -85,7 +85,7 @@ def List():
             col2.write(item[1])
             col5.write(item[7])
 
-            query = item[0].strip()
+            query = item[1].strip()
             search_url = f"https://www.google.com/search?q={query}"
             col6.write(f'<a href="{search_url}" target="_blank">Ir à página</a>', unsafe_allow_html=True)
         Limp()
