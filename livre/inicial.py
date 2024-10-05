@@ -33,7 +33,7 @@ def motivo():
 
   with st.container(border=True):
 
-    OP = st.selectbox('Para mais experiências, selecione uma opção: ', [' -- ','Nenhuma','Página do autor','Canal do autor','Vídeos sobre o SUS', 'Livros do autor'])  
+    OP = st.selectbox('Para mais experiências, selecione uma opção: ', [' -- ','Nenhuma','Canal do autor','Vídeos sobre o SUS', 'Livros do autor'])  
 
     if OP == 'Nenhuma':
       st.warning('Escolha uma opção válida (com conteúdo) e depois clique em Avançar!')
@@ -41,11 +41,7 @@ def motivo():
     if OP == 'Página do autor':
       st.markdown('Visite minha página na internet:[Clicando aqui](https://robertson-guimar-es-k5en6gptvyja75pkmb4zv4.streamlit.app/) ')
       #webbrowser.open('https://robertson-guimar-es-k5en6gptvyja75pkmb4zv4.streamlit.app/')
-
-    if OP == 'Canal do autor':
-      st.markdown('Visite meu canal no Youtube:[Clicando aqui](https://www.youtube.com/@iscutaqui) ')
-      #webbrowser.open('https://www.youtube.com/@iscutaqui')
-
+    
     if OP == 'Livros do autor':
       UN11.livros()
 
