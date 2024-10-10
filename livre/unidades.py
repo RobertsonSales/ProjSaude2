@@ -23,10 +23,10 @@ def List_Unid():
         livre.UN4.List()
 
     elif page == 'POLICLÍNICAS':
-        livre.UN6.List()
+        livre.UN5.List()
 
     elif page == 'CLÍNICAS DA FAMÍLIA':
-        livre.UN5.List()
+        livre.UN6.List()
 
     elif page == 'UNIDADES BÁSICAS DE SAÚDE':
         livre.UN7.List()
