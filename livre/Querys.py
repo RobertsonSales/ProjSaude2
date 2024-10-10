@@ -77,18 +77,18 @@ def Select3(): # Lista de hospitais municipais
     rows.append(rec)
   return rows
 
-def Select4(): # Lista de Clínicas da Família
+def Select4(): # Lista de Policlínicas
   con, cursor = db.create_connection()
-  cursor.execute("""SELECT * FROM cli_fam_rio """)
+  cursor.execute("""SELECT * FROM polic_rio """)
   recset = cursor.fetchall()
   rows = []
   for rec in recset:
     rows.append(rec)
   return rows
 
-def Select5(): # Lista de Policlínicas
+def Select5(): # Lista de Clínicas da Família
   con, cursor = db.create_connection()
-  cursor.execute("""SELECT * FROM polic_rio """)
+  cursor.execute("""SELECT * FROM cli_fam_rio """)
   recset = cursor.fetchall()
   rows = []
   for rec in recset:
