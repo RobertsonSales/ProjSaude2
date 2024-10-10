@@ -53,7 +53,7 @@ def Limp():
 def List():
     st.success("Policlínicas no Rio de Janeiro - Você pode obter mais informações clicando em 'Ir à página'.")
     if st.button('Imprimir lista'):
-        base = "cli_fam_rio"
+        base = "polic_rio"
         dados = Querys.Select_Frame(base)
         colunas = ['Unidade', 'Tipo', 'Endereço', 'Bairro', 'Telefone', 'Funcionamento']
         df = pd.DataFrame(dados, columns=colunas)
