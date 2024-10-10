@@ -1,5 +1,4 @@
 import streamlit as st 
-import webbrowser
 import livre.UN11 as UN11
 
 def motivo():
